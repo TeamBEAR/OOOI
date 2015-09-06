@@ -76,7 +76,7 @@ public class Level1 extends Level implements ILevel{
 			draw_scenery();
 			agent.draw();
 			if(agent.isOutOfBounds()){
-			    state=4;
+			    this.setFinished(true);
 			}
 			break;
 		case 3:
@@ -87,8 +87,6 @@ public class Level1 extends Level implements ILevel{
 			request="";
 			state=2;
 			break;
-		case 4:
-			
 		}
 	}
 

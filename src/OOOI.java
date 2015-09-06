@@ -1,3 +1,4 @@
+
 import processing.core.*;
 
 import core.Agent;
@@ -33,7 +34,16 @@ public class OOOI extends PApplet{
 	//read what user type and update string containing previous text
 	//this function has some bugs
 	public void keyPressed() {
+		this.chooseLevel();
 		levels[currentLevel].handleInput(key);
+	}
+	
+	public void chooseLevel() {
+		if(((Level)levels[currentLevel]).isFinished()){
+		    if(currentLevel+1 < levels.length){
+			    currentLevel++;
+		    }
+		}
 	}
 	  
 	public static void main(String[] args) {
