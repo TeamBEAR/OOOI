@@ -6,7 +6,7 @@ import levels.*;
 
 public class OOOI extends PApplet{
 
-	Level[] levels;
+	ILevel[] levels;
 	Agent agent;
 	int currentLevel;
 
@@ -21,7 +21,7 @@ public class OOOI extends PApplet{
         currentLevel = 0;
         
         //  TODO: Dynamic assignment of levels, maybe with a factory?
-        levels = new Level[2];
+        levels = new ILevel[2];
         levels[0] = new Level1(this, agent);
         levels[1] = new Level2(this, agent);
 	}
