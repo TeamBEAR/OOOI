@@ -4,9 +4,8 @@ import processing.core.PApplet;
 import processing.data.StringList;
 import core.Agent;
 
-public class Level1 extends Level implements ILevel{
+public class Level1 extends Level{
 	
-	String request;//to store action tipped by user
 	StringList actions;//action enabeled
 	String name;//user name
 	
@@ -51,6 +50,7 @@ public class Level1 extends Level implements ILevel{
 			//save user name and go to the next game state
 			parent.background(0);
 			name=request;
+			agent.setName(name);
 			request="";
 			actions.append("accelerer");
 			state=2;
@@ -64,7 +64,7 @@ public class Level1 extends Level implements ILevel{
 			parent.fill(255, 255, 255);
 			String tmp=name+" tu peux ";
 			parent.text(tmp, 10, (float) (parent.height*0.75));      
-			parent.fill(255, 0, 0);
+			parent.fill(0, 255, 0);
 			String actionsToDisplay="";
 			for(int i=0;i<actions.size();++i){
 				actionsToDisplay+=actions.get(i);
@@ -80,32 +80,23 @@ public class Level1 extends Level implements ILevel{
 			}
 			break;
 		case 3:
-			if (request.equals(actions.get(0))){
-				agent.speed_up();
-			}
+			agent.speed_up();
 			parent.background(0);
 			request="";
 			state=2;
 			break;
 		}
 	}
-
+	
 	@Override
-	public void handleInput(int pressed_key) {
-		if (pressed_key==127 || pressed_key==8) {
-			//delete letter
-			try {
-				request=request.substring(0, request.length()-1);
-			} catch (Exception e) {
-				request="";
-			}
-			parent.background(0);
-		} else if (pressed_key==10) {
-			//valid request
-			state++;
-		} else  if (pressed_key >= 32) {
-			//add letter
-			request += (char) pressed_key ;
+	public int validateInput(String input) {
+		if (state == 0){
+			if(request.length()>0)
+		        return 1; // Any name, only check non-empty.
+		}else if(state == 2){
+			if(request.equals(actions.get(0)))
+			  return 3; // Correct command, enter state 3
 		}
+		return super.validateInput(input);
 	}
 }

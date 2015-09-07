@@ -4,4 +4,5 @@ package levels;
 public interface ILevel {
 	public void draw();
 	public void handleInput(int pressed_key);
+	int validateInput(String input);
 }

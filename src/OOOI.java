@@ -22,19 +22,20 @@ public class OOOI extends PApplet{
         currentLevel = 0;
         
         //  TODO: Dynamic assignment of levels, maybe with a factory?
-        levels = new ILevel[2];
+        levels = new ILevel[3];
         levels[0] = new Level1(this, agent);
         levels[1] = new Level2(this, agent);
+        levels[2] = new Level3(this, agent);
 	}
 
 	public void draw() {
+		this.chooseLevel();
 		levels[currentLevel].draw();
 	}
 
 	//read what user type and update string containing previous text
 	//this function has some bugs
 	public void keyPressed() {
-		this.chooseLevel();
 		levels[currentLevel].handleInput(key);
 	}
 	
