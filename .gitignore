@@ -4,7 +4,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 
@@ -16,7 +16,7 @@ hs_err_pid*
 ######################
  
 *.pydevproject
-.project
+#.project
 .metadata
 bin/**
 tmp/**
@@ -26,7 +26,7 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
-.classpath
+#.classpath
 .settings/
 .loadpath
 /src/main/resources/rebel.xml
