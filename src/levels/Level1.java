@@ -15,13 +15,6 @@ public class Level1 extends Level{
 		this.actions = new StringList();
 	}
 
-	//print what user tip
-	public void print_request(){
-		parent.textSize(32);      
-		parent.fill(125);  
-		parent.text("> "+request, 10, (float) (parent.height*0.85));
-	}
-
 	//draw game scenery
 	public void draw_scenery(){
 		parent.fill(255);
