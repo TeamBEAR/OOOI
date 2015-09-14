@@ -1,0 +1,13 @@
+Pour importer (Eclipse):
+
+1. Dans le dossier ``workspace'' faire : git clone git@github.com:TeamBEAR/OOOI.git
+2. Aller au menu : File->Import
+3. Sous ``General'', selectionner  ``Existing Projects into Workspace''.
+4. Dans la fenetre qui s'ouvre, dans le 1er champs ``Select root directory'' cliquer sur ``Browse'' et mettre le chemin d'accès au répertoire contenant le projet.
+5. Clicker ``Finish'' 
+
+Pour executer:
+
+1. Click droit sur OOOI.java -> Run As -> 1 Java Application
+
+
