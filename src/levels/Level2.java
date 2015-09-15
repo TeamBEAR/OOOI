@@ -39,6 +39,8 @@ public class Level2 extends Level{
 	        // Change message
 	        if(parser.getRequest().equals(directions[current_direction]))
 	            current_direction++;
+	        
+	        parser.clear();
 	    }
 	    
 		switch(state){

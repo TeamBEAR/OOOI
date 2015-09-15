@@ -29,6 +29,10 @@ public class Agent{
 	return looping;
   }
   
+  public boolean isMoving(){
+      return speed.mag()>=1;
+  }
+  
   public void setLooping(boolean looping) {
 	this.looping = looping;
   }

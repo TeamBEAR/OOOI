@@ -51,31 +51,43 @@ public class Parser {
 		return enterTouch;
 	}
 	
-	   public boolean executeInput(Agent agent) {
-	        if(request.equals("virer.droite")){
-	            agent.turnRight();
-	            return true;
-	        }else if(request.equals("virer.gauche")){
-	            agent.turnLeft();
-	            return true;
-	        }else if(request.equals("arreter")){
-	            agent.stop();
-	            return true;
-	        }else if(request.equals("accelerer")){
-	            agent.speed_up();
-	            return true;
-	        }else if(request.equals("continuer")){
-	            levelFinished=true;
-	            return true;
-	        }
-	        return false;
+	public boolean executeInput(Agent agent) {
+        /*Here we must use a true parser*/
+	    if(request.equals("virer.droite")){
+	        agent.turnRight();
+	        return true;
+	    }else if(request.equals("virer.gauche")){
+	        agent.turnLeft();
+	        return true;
+	    }else if(request.equals("arreter")){
+	        agent.stop();
+	        return true;
+	    }else if(request.equals("accelerer")){
+	        agent.speed_up();
+	        return true;
+	    }else if(request.equals("allumer.radar")){
+	        agent.setRadarActive(true);
+	        return true;
+	    }else if(request.equals("eteindre.radar")){
+	        agent.setRadarActive(false);
+	        return true;
+	    }else if(request.equals("allumer.radar et accelerer")){
+	        agent.speed_up();
+	        agent.setLooping(true);
+	        agent.setRadarActive(true);
+	        return true;
+	    }else if(request.equals("continuer")){
+	        levelFinished=true;
+	        return true;
 	    }
-	   
-	   public void resetLevelFinished() {
-        this.levelFinished = false;
-      }
-	   
-	   public boolean isLevelFinished() {
-            return levelFinished;
-        }
+	    return false;
+	}
+
+	public void resetLevelFinished() {
+	    this.levelFinished = false;
+	}
+
+	public boolean isLevelFinished() {
+	    return levelFinished;
+	}
 }

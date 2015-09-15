@@ -9,11 +9,13 @@ public class Level3 extends Level{
 	
 	PShape obstacles;
 	PVector bg_color;
+	int state;
 
 	public Level3(PApplet parent, Agent agent){
 		super(parent, agent);
 		obstacles = parent.createShape(parent.GROUP);
 		bg_color = new PVector(0, 0, 0);
+		state = 0;
 		
 		PShape upper_rect = parent.createShape(parent.RECT,
 				(float) (parent.width*0.75),
@@ -56,7 +58,7 @@ public class Level3 extends Level{
 	@Override
 	public void draw() {
 		int[] color = {0, 195, 195};
-
+		
 		if(agent.radarReadsRectangle(obstacles))
 			bg_color=new PVector(255, 0, 0);
 		
@@ -71,6 +73,22 @@ public class Level3 extends Level{
 			bg_color.set(0, 0, 0);
 
 		drawScenery();
+		
+	      if(parser.isEnterTouch()){
+	            if(parser.executeInput(agent)){
+	                if(agent.isRadarActive() && state == 0)
+	                    state=1;
+	                else if(!agent.isRadarActive() && state == 1)
+	                    state=2;
+	                else if(agent.isRadarActive() && agent.isMoving())
+	                    state=3;
+	            }
+	            if(parser.isLevelFinished()){
+	                parser.resetLevelFinished();
+	                this.setFinished(true);
+	            }
+	            parser.clear();
+	        }
 		
 		switch(state){
 		case 0:
@@ -96,32 +114,7 @@ public class Level3 extends Level{
 		print_request();
 		agent.draw();
 	}
-
-	@Override
-	public int validateInput(String input) {
-			
-		if(request.equals("allumer.radar")){
-			request = "";
-			agent.setRadarActive(true);
-			state = 1;
-		}else if(request.equals("eteindre.radar")){
-			request = "";
-			agent.setRadarActive(false);
-			state = 2;
-		}else if(request.equals("allumer.radar et accelerer")){
-			/*Here we must use a true parser*/
-			request = "";
-			agent.speed_up();
-			agent.setLooping(true);
-			agent.setRadarActive(true);
-			state = 3;
-		}else if(request.equals("continuer")){
-			request = "";
-			this.setFinished(true);
-		}
-		return super.validateInput(input);
-	}
-
+	
 	@Override
 	public ILevel getNextLevel() {
 		// TODO Auto-generated method stub
