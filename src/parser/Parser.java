@@ -10,7 +10,14 @@ public class Parser {
 		request=new String();
 		enterTouch=false;
 	}
+	
+	public void clear(){
+		request="";
+	}
 	public void handleInput(int pressed_key) {
+		if(enterTouch){
+			request="";
+		}
 		if (pressed_key==127 || pressed_key==8) {
 			//delete letter
 			try {

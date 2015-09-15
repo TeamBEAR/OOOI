@@ -4,8 +4,6 @@ import levels.ILevel;
 import levels.Level;
 import levels.Level0;
 import levels.Level1;
-import levels.Level2;
-import levels.Level3;
 import parser.Parser;
 
 import processing.core.*;
@@ -33,7 +31,7 @@ public class Controler extends PApplet{
 
 	public void draw() {
 		if(level.isFinished()){
-			background(255);			
+			level=level.getNextLevel();
 		}else{
 			level.draw();
 		}

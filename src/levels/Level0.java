@@ -46,4 +46,10 @@ public class Level0 extends Level {
 			printName(parser.getRequest());			
 		}		
 	}
+
+	@Override
+	public ILevel getNextLevel() {
+		// TODO Auto-generated method stub
+		return new Level1(this.parent,this.agent);
+	}
 }
