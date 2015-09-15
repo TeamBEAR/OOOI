@@ -1,113 +1,128 @@
-//package levels;
-//
-//import core.Agent;
-//import processing.core.PApplet;
-//
-//public class Level2 extends Level{
-//	
-//	String[] directions;
-//	int[] command_color;
-//	int current_direction;
-//	
-//	public Level2(PApplet parent, Agent agent){
-//		super(parent, agent);
-//		this.request = "";
-//		this.current_direction = 0;
-//		
-//		this.command_color = new int[3];
-//		setCommand_color(0, 255, 0);
-//		
-//		this.directions = new String[4];
-//		this.directions[0] = "virer.droite";
-//		this.directions[1] = "virer.gauche";
-//		this.directions[2] = "arreter";
-//		this.directions[3] = "continuer";
-//	}
-//	
-//	//print what user tip
-//	public void print_request(){
-//		parent.textSize(32);
-//		parent.fill(125);  
-//		parent.text("> " + request, 10, (float) (parent.height*0.85));
-//	}
-//	
-//	public void print_arbitrary_message(String msg){
-//		parent.textSize(32);
-//		parent.fill(255);
-//		parent.text(msg, 10, (float) (parent.height*0.75));
-//	}
-//
-//	public void print_hint(int[] color, String direction){
-//		parent.textSize(32);
-//		String hint = agent.getName() + " tu peux ";
-//		parent.fill(255);
-//		parent.text(hint, 10, (float) (parent.height*0.75));
-//		parent.fill(color[0], color[1], color[2]);
-//		parent.text(direction, 10+parent.textWidth(hint), (float) (parent.height*0.75));
-//	}
-//	
-//	@Override
-//	public void draw() {
-//		switch(state){
-//		case 0: // Preparation state
-//			/*agent comes from the left*/
-//			agent.setPos(-50, agent.getPos().y);
-//			agent.setLooping(true);
-//			state = 1;
-//		case 1:
-//			if(current_direction == directions.length-2){
-//				setCommand_color(255, 0, 0);
-//			}else if(current_direction == directions.length-1){
-//				setCommand_color(0, 125, 255);
-//			}else if(current_direction == directions.length){
-//				current_direction--;
-//			}
-//			parent.background(0);
-//			print_hint(command_color, directions[current_direction]);
-//			print_request();
-//			agent.draw();
-//			break;
-//		}
-//	}
-//	
-//	public int checkColor(int color){
-//		if(color>255) color = 255;
-//		else if(color<0) color = 0;
-//		return color;
-//	}
-//	
-//	public void setCommand_color(int r, int g, int b) {
-//		r = checkColor(r);
-//		g = checkColor(g);
-//		b = checkColor(b);
-//		
-//		this.command_color[0] = r;
-//		this.command_color[1] = g;
-//		this.command_color[2] = b;
-//	}
-//
-//	@Override
-//	public int validateInput(String input) {
-//		if(request.equals(directions[current_direction]))
-//			current_direction++;
-//			
-//		if(request.equals("virer.droite")){
-//			request = "";
-//			agent.turnRight();
-//		}else if(request.equals("virer.gauche")){
-//			request = "";
-//			agent.turnLeft();
-//		}else if(request.equals("arreter")){
-//			request = "";
-//			agent.stop();
-//		}else if(request.equals("accelerer")){
-//			request = "";
-//			agent.speed_up();
-//		}else if(request.equals("continuer")){
-//			request = "";
-//			this.setFinished(true);
-//		}
-//		return super.validateInput(input);
-//	}
-//
-//}
+package levels;
+
+import core.Agent;
+import processing.core.PApplet;
+import processing.core.PShape;
+import processing.core.PVector;
+
+public class Level2 extends Level{
+	
+	PShape obstacles;
+	PVector bg_color, color;
+	int state;
+
+	public Level2(PApplet parent, Agent agent){
+		super(parent, agent);
+		obstacles = parent.createShape(parent.GROUP);
+		bg_color = new PVector(0, 0, 0);
+		color = new PVector(0, 255, 0);
+		state = 0;
+		
+		PShape upper_rect = parent.createShape(parent.RECT,
+				(float) (parent.width*0.75),
+				(float) 0, 
+				(float) 50, 
+				(float) (parent.height*0.5-50)
+				);
+		upper_rect.setFill(255);
+
+		
+		PShape lower_rect = parent.createShape(parent.RECT,
+				(float) (parent.width*0.75), 
+				(float) (parent.height*0.5+50), 
+				(float) 50, 
+				(float) (parent.height*0.5)
+				);
+		lower_rect.setFill(255);
+
+		
+		obstacles.addChild(upper_rect);
+		obstacles.addChild(lower_rect);
+	}
+	
+	public void drawScenery(){
+		parent.noStroke();
+		parent.shape(obstacles);
+	}
+	
+	public PShape getObstacles() {
+		return obstacles;
+	}
+	
+	@Override
+	public void draw() {
+	    
+		if(agent.radarReadsRectangle(obstacles))
+			bg_color=new PVector(255, 0, 0);
+		
+		parent.background(
+				bg_color.x,
+				bg_color.y,
+				bg_color.z);
+		
+		if (bg_color.mag()>0)
+			bg_color.sub(17, 0, 0);
+		else
+			bg_color.set(0, 0, 0);
+
+		drawScenery();
+		
+	      if(parser.isEnterTouch()){
+	            if(parser.executeInput(agent)){
+	                if(agent.isRadarActive() && state == 1)
+	                    state++;
+	                else if(!agent.isRadarActive() && state == 2){
+	                    color.set(255, 0, 0);
+	                    state++;
+	                }
+	                else if(!agent.isMoving() && state == 3){
+	                       color.set(0, 255, 0);
+	                    state++;
+	                }
+	                else if(agent.isRadarActive() && agent.isMoving() && state == 4){
+	                    color.set(0, 125, 255);
+	                    state++;
+	                    agent.setLooping(false);
+	                }
+	            }
+	            parser.clear();
+	        }
+		
+		switch(state){
+		case 0:
+            /*agent comes from the left*/
+            agent.setPos(-50, agent.getPos().y);
+		    agent.setLooping(true);
+		    state++;
+		case 1:
+			print_hint(color, "allumer.radar");
+			break;
+		case 2:
+			print_hint(color, "eteindre.radar");
+			break;
+	    case 3:
+            print_hint(color, "arreter");
+            break;
+		case 4:
+			print_hint(color, "allumer.radar et accelerer");
+			break;
+		case 5:
+		    // You can type "continuer" or wait
+            if(parser.isLevelFinished() || agent.isOutOfBounds()){
+                parser.resetLevelFinished();
+                this.setFinished(true);
+            }
+			break;
+		}
+		//parent.textSize(32);
+		//parent.text("to do...",parent.width/2,parent.height/2);
+		print_request();
+		agent.draw();
+	}
+	
+	@Override
+	public ILevel getNextLevel() {
+		// TODO Auto-generated method stub
+		return new Level3(this.parent,this.agent);
+	}
+}
