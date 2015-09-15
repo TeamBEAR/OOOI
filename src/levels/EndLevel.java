@@ -11,6 +11,8 @@ public class EndLevel extends Level {
 
 	public void draw(){
 		parent.background(255);
+	    parent.textSize(32);
+	    parent.text("to do...",parent.width/2,parent.height/2);
 	}
 	@Override
 	public ILevel getNextLevel() {

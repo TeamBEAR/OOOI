@@ -8,11 +8,13 @@ public class Level2 extends Level{
 	String[] directions;
 	int[] command_color;
 	int current_direction;
+	int state;
 	
 	public Level2(PApplet parent, Agent agent){
 		super(parent, agent);
 		this.request = "";
 		this.current_direction = 0;
+		this.state = 0;
 		
 		this.command_color = new int[3];
 		setCommand_color(0, 255, 0);
@@ -26,6 +28,19 @@ public class Level2 extends Level{
 	
 	@Override
 	public void draw() {
+	    
+	    if(parser.isEnterTouch()){
+	        parser.executeInput(agent);
+	        if(parser.isLevelFinished()){
+	            parser.resetLevelFinished();
+	            this.setFinished(true);
+	        }
+	        
+	        // Change message
+	        if(parser.getRequest().equals(directions[current_direction]))
+	            current_direction++;
+	    }
+	    
 		switch(state){
 		case 0: // Preparation state
 			/*agent comes from the left*/
@@ -62,30 +77,6 @@ public class Level2 extends Level{
 		this.command_color[0] = r;
 		this.command_color[1] = g;
 		this.command_color[2] = b;
-	}
-
-	@Override
-	public int validateInput(String input) {
-		if(request.equals(directions[current_direction]))
-			current_direction++;
-			
-		if(request.equals("virer.droite")){
-			request = "";
-			agent.turnRight();
-		}else if(request.equals("virer.gauche")){
-			request = "";
-			agent.turnLeft();
-		}else if(request.equals("arreter")){
-			request = "";
-			agent.stop();
-		}else if(request.equals("accelerer")){
-			request = "";
-			agent.speed_up();
-		}else if(request.equals("continuer")){
-			request = "";
-			this.setFinished(true);
-		}
-		return super.validateInput(input);
 	}
 
 	@Override

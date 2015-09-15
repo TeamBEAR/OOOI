@@ -1,14 +1,18 @@
 package parser;
 
+import core.Agent;
+
 public class Parser {
 	private String request;
 	private boolean deleteTouch;
 	private boolean enterTouch;
+	private boolean levelFinished;
 	
 	public Parser(){
 		deleteTouch=false;
 		request=new String();
 		enterTouch=false;
+		levelFinished=false;
 	}
 	
 	public void clear(){
@@ -47,8 +51,31 @@ public class Parser {
 		return enterTouch;
 	}
 	
-	
-	
-	
-
+	   public boolean executeInput(Agent agent) {
+	        if(request.equals("virer.droite")){
+	            agent.turnRight();
+	            return true;
+	        }else if(request.equals("virer.gauche")){
+	            agent.turnLeft();
+	            return true;
+	        }else if(request.equals("arreter")){
+	            agent.stop();
+	            return true;
+	        }else if(request.equals("accelerer")){
+	            agent.speed_up();
+	            return true;
+	        }else if(request.equals("continuer")){
+	            levelFinished=true;
+	            return true;
+	        }
+	        return false;
+	    }
+	   
+	   public void resetLevelFinished() {
+        this.levelFinished = false;
+      }
+	   
+	   public boolean isLevelFinished() {
+            return levelFinished;
+        }
 }
