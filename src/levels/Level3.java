@@ -5,7 +5,7 @@ import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class Level3 extends Level implements ILevel{
+public class Level3 extends Level{
 	
 	PShape obstacles;
 	PVector bg_color;
@@ -120,5 +120,11 @@ public class Level3 extends Level implements ILevel{
 			this.setFinished(true);
 		}
 		return super.validateInput(input);
+	}
+
+	@Override
+	public ILevel getNextLevel() {
+		// TODO Auto-generated method stub
+		return new EndLevel(this.parent,this.agent);
 	}
 }

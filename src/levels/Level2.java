@@ -88,4 +88,9 @@ public class Level2 extends Level{
 		return super.validateInput(input);
 	}
 
+	@Override
+	public ILevel getNextLevel() {
+		// TODO Auto-generated method stub
+		return new Level3(this.parent,this.agent);
+	}
 }
