@@ -1,5 +1,5 @@
 package levels;
-
+import parser.Parser;
 import core.Agent;
 import processing.core.PApplet;
 
@@ -9,15 +9,18 @@ public class Level implements ILevel{
 	String request;
 	boolean finished;
 	int state;//state of the level
+	Parser parser;
 	
 	public Level(PApplet parent, Agent agent){
 		this.finished = false;
 		this.parent = parent;
 		this.agent = agent;
+		this.parser = new Parser();
 		this.state = 0; // Level always starts in state 0
 		this.request = "";
 	}
 	
+	@Override
 	public boolean isFinished() {
 		return finished;
 	}
@@ -28,21 +31,7 @@ public class Level implements ILevel{
 	
 	@Override
 	public void handleInput(int pressed_key) {
-		if (pressed_key==127 || pressed_key==8) {
-			//delete letter
-			try {
-				request=request.substring(0, request.length()-1);
-			} catch (Exception e) {
-				request="";
-			}
-			parent.background(0);
-		} else if (pressed_key==10) {
-			//validate request
-			state = validateInput(request);
-		} else  if (pressed_key >= 32) {
-			//add letter
-			request += (char) pressed_key ;
-		}		
+		parser.handleInput(pressed_key);
 	}
 
 	@Override

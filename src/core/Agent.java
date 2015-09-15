@@ -7,10 +7,10 @@ public class Agent{
   PApplet parent;
   PVector pos;//cordinate of agent's center of mass
   PVector speed;//agent's speed
-  String name;
+  String name;//agent's name
   boolean looping;
-  //default constructor
   
+  //default constructor  
   public Agent(PApplet parent, float x,float y){
 	  this.parent = parent;
 	  this.name = "";
