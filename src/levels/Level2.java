@@ -65,8 +65,6 @@ public class Level2 extends Level{
 		else
 			bg_color.set(0, 0, 0);
 
-		drawScenery();
-		
 	      if(parser.isEnterTouch()){
 	            if(parser.executeInput(agent)){
 	                if(agent.isRadarActive() && state == 1)
@@ -118,6 +116,7 @@ public class Level2 extends Level{
 		//parent.text("to do...",parent.width/2,parent.height/2);
 		print_request();
 		agent.draw();
+		drawScenery();
 	}
 	
 	@Override

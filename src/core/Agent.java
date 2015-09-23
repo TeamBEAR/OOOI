@@ -2,6 +2,7 @@ package core;
 
 import processing.core.*;
 import processing.core.PVector;
+import sun.font.CreatedFontTracker;
 
 
 public class Agent{
@@ -11,8 +12,10 @@ public class Agent{
   String name;//agent's name
   boolean looping;
   
+  PShape radar;
   boolean radarActive;
-  PVector radarState;
+  
+  Collider collider;
   
   //default constructor  
   public Agent(PApplet parent, float x,float y){
@@ -20,9 +23,14 @@ public class Agent{
 	  this.name = "";
 	  this.looping = false;
 	  this.radarActive = false;
+	  
+	  parent.ellipseMode(parent.RADIUS);
+	  this.radar = parent.createShape(parent.ELLIPSE, x, y, 25, 25);
+	  
 	  pos=new PVector(x,y);//initialize position
 	  speed=new PVector(0,0);//no speed
-	  radarState=new PVector(50, 50); // radar starts in the border of Agent
+	  
+	  collider = new Collider();
   }
   
   public boolean isLooping() {
@@ -48,66 +56,8 @@ public class Agent{
   
   public boolean radarReadsRectangle(PShape obstacles){
 	  
-	  float[] obstacleParameters;
-	  PVector[] corners = new PVector[4];
-	  for (int i=0;i<4;i++)
-		  corners[i] = new PVector(0, 0);
-	  
-	  float[] obstacle_limits = new float[4];
-	  float[] farthest_lines = new float[4];
-	  
-	  float x, y;
-	  float dist;
-
 	  if(radarActive){
-		  for(int i=0; i < obstacles.getChildCount(); i++){
-			   obstacleParameters = obstacles.getChild(i).getParams();
-			   //left
-			   obstacle_limits[0] = obstacleParameters[0] - .5f*obstacleParameters[2];
-			   //right
-			   obstacle_limits[1] = obstacleParameters[0] + .5f*obstacleParameters[2];
-			   //upper
-			   obstacle_limits[2] = obstacleParameters[1] - .5f*obstacleParameters[3];
-			   //lower
-			   obstacle_limits[3] = obstacleParameters[1] + .5f*obstacleParameters[3];
-			   
-			   // Test Center
-			   if(pos.x >= obstacle_limits[0] && pos.x <= obstacle_limits[1])
-				   if(pos.y >= obstacle_limits[2] && pos.y <= obstacle_limits[3])
-					   return true;
-
-			   
-			   // The center is not colliding, test corners
-			   for(int j=0; j<2; j++){
-				   x = obstacle_limits[j];
-				   for(int k=2; k<4; k++){
-				       y = obstacle_limits[k];
-				       dist= (float)Math.sqrt(
-				    		   Math.pow((x-pos.x), 2) + 
-				    		   Math.pow((y-pos.y), 2)
-				    		   );
-				       if(dist <= radarState.x/2.0f)
-				    	   return true;
-				   }
-				   
-			   }
-
-			   // The corners are not colliding, test limits
-			   //left of Agent
-			   farthest_lines[0] = pos.x - .5f*radarState.x;
-			   //right of Agent
-			   farthest_lines[1] = pos.x + .5f*radarState.x;
-			   //up of Agent
-			   farthest_lines[2] = pos.y - .5f*radarState.y;
-			   //down of Agent
-			   farthest_lines[3] = pos.y + .5f*radarState.y;
-			   for(int j =0; j<4; j++)
-			   {
-				   if (farthest_lines[j] >= obstacle_limits[0] && farthest_lines[j] <= obstacle_limits[1])
-					   if(farthest_lines[j] >= obstacle_limits[2] && farthest_lines[j] <= obstacle_limits[3])
-						   return true;
-			   }
-		  }
+		return collider.circleAndRect(this.radar, obstacles);
 	  }
 	  return false;
   }
@@ -179,12 +129,21 @@ public class Agent{
     	}
     }
     if (radarActive){
-  		parent.stroke(255);
-  		parent.noFill();
-    	parent.ellipse(pos.x, pos.y, radarState.x, radarState.y);
-    	radarState.add(new PVector(3,  3));
-    	if(radarState.x > 175)
-    	    radarState = new PVector(50, 50);
+    	float[] radar_data = radar.getParams();
+    	radar_data[0] = pos.x;
+    	radar_data[1] = pos.y;
+    	radar_data[2] += 2;
+    	radar_data[3] += 2;
+    	
+    	if(radar_data[2] > 87.5  || radar_data[3] > 87.5){
+    	    radar_data[2] = 25;
+    	    radar_data[3] = 25;
+    	}
+    	parent.ellipseMode(parent.RADIUS);
+    	radar = parent.createShape(parent.ELLIPSE, radar_data);
+    }else{
+    	parent.ellipseMode(parent.RADIUS);
+    	radar = parent.createShape(parent.ELLIPSE, pos.x, pos.y, 25, 25);
     }
   }
   
@@ -202,10 +161,25 @@ public class Agent{
 	  //Erase previous position
 	parent.fill(0);
 	parent.noStroke();
-	parent.ellipse(pos.x, pos.y, 51, 51);
+	parent.ellipseMode(parent.RADIUS);
+	if(radarActive){
+		parent.noFill();
+		parent.shape(radar);
+	}else{
+    	parent.stroke(0);
+		parent.ellipse(pos.x, pos.y, 25, 25);
+	}
     update();
     parent.fill(255);
     parent.noStroke();
-    parent.ellipse(pos.x, pos.y, 50, 50);
+    parent.ellipseMode(parent.RADIUS);
+    parent.ellipse(pos.x, pos.y, 25, 25);
+    
+    if(radarActive){
+    	parent.noFill();
+    	parent.stroke(255);
+    	parent.shape(radar);
+    }
+
   }
 }
