@@ -51,7 +51,9 @@ public class Agent{
 		return radarActive;
 	}
 
-	
+	public void set_speed(float x,float y){
+		speed.set(x,y);
+	}
 	public float get_x(){
 		return pos.x;
 	}

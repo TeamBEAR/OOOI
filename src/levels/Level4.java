@@ -12,7 +12,9 @@ public class Level4 extends Level{
 		super(parent, agent);
 		parser.resetLevelFinished();
 
-		agent.setPos(-50, agent.getPos().y);
+		agent.setPos(-50,(float)(parent.height*0.5));
+		agent.setRadarActive(false);
+		agent.set_speed(10,0);
 		createObstacles();
 		state=0;
 	}
@@ -91,8 +93,7 @@ public class Level4 extends Level{
 			if(bb_y1>ymin && bb_y1<ymax){
 				agent.inverse_y_speed();
 			}else if(bb_y0>ymin && bb_y0<ymax){
-				agent.inverse_y_speed();
-				
+				agent.inverse_y_speed();				
 			}
 
 		}
