@@ -50,6 +50,6 @@ public class Level0 extends Level {
 	@Override
 	public ILevel getNextLevel() {
 		// TODO Auto-generated method stub
-		return new Level4(this.parent,this.agent);
+		return new Level1(this.parent,this.agent);
 	}
 }

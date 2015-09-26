@@ -13,6 +13,9 @@ public class Agent{
 
 	boolean radarActive;
 	PVector radarState;
+	
+	float width;
+	float height;
 
 	//default constructor  
 	public Agent(PApplet parent, float x,float y){
@@ -22,7 +25,9 @@ public class Agent{
 		this.radarActive = false;
 		pos=new PVector(x,y);//initialize position
 		speed=new PVector(0,0);//no speed
-		radarState=new PVector(50, 50); // radar starts in the border of Agent
+		width=50;
+		height=50;
+		radarState=new PVector(width,height); // radar starts in the border of Agent
 	}
 
 	public boolean isLooping() {
@@ -46,6 +51,22 @@ public class Agent{
 		return radarActive;
 	}
 
+	
+	public float get_x(){
+		return pos.x;
+	}
+	
+	public float get_y(){
+		return pos.y;
+	}
+	
+	public float get_width(){
+		return width;
+	}
+	
+	public float get_height(){
+		return height;
+	}
 	public boolean radarReadsRectangle(PShape obstacles){
 
 		float[] obstacleParameters;
@@ -277,10 +298,10 @@ public class Agent{
 		//Erase previous position
 		parent.fill(0);
 		parent.noStroke();
-		parent.ellipse(pos.x, pos.y, 51, 51);
+		parent.ellipse(pos.x, pos.y, width+1, height+1);
 		update();
 		parent.fill(255);
 		parent.noStroke();
-		parent.ellipse(pos.x, pos.y, 50, 50);
+		parent.ellipse(pos.x, pos.y,width,height);
 	}
 }
