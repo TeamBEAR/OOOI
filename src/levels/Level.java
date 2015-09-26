@@ -2,6 +2,7 @@ package levels;
 import parser.Parser;
 import core.Agent;
 import processing.core.PApplet;
+import processing.core.PShape;
 import processing.core.PVector;
 
 public abstract class Level implements ILevel{
@@ -10,6 +11,7 @@ public abstract class Level implements ILevel{
 	String request;
 	boolean finished;
 	Parser parser;
+	PShape obstacles;
 	
 	public Level(PApplet parent, Agent agent){
 		this.finished = false;
@@ -17,8 +19,18 @@ public abstract class Level implements ILevel{
 		this.agent = agent;
 		this.parser = new Parser();
 		this.request = "";
+
+		obstacles = parent.createShape(parent.GROUP);
 	}
 	
+	protected void drawScenery(){
+		parent.noStroke();
+		parent.shape(obstacles);
+	}
+
+	protected PShape getObstacles() {
+		return obstacles;
+	}
 	@Override
 	public boolean isFinished() {
 		return finished;

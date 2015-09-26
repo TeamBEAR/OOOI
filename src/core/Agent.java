@@ -261,6 +261,14 @@ public class Agent{
 		else
 			return false;
 	}
+	
+	public void inverse_x_speed(){
+		speed.set(-1*speed.x,speed.y);
+	}
+	
+	public void inverse_y_speed(){
+		speed.set(speed.x,-1*speed.y);
+	}
 
 	//draw agent
 	//because I have no gift for drawing

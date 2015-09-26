@@ -7,17 +7,20 @@ import processing.core.PVector;
 
 public class Level2 extends Level{
 
-	PShape obstacles;
 	PVector bg_color, color;
 	int state;
 
 	public Level2(PApplet parent, Agent agent){
 		super(parent, agent);
-		obstacles = parent.createShape(parent.GROUP);
 		bg_color = new PVector(0, 0, 0);
 		color = new PVector(0, 255, 0);
 		state = 0;
+		
+		createObstacles();
 
+	}
+	
+	private void createObstacles(){
 		PShape upper_rect = parent.createShape(parent.RECT,
 				(float) (parent.width*0.75),
 				(float) 0, 
@@ -38,16 +41,10 @@ public class Level2 extends Level{
 
 		obstacles.addChild(upper_rect);
 		obstacles.addChild(lower_rect);
+
+		
 	}
 
-	public void drawScenery(){
-		parent.noStroke();
-		parent.shape(obstacles);
-	}
-
-	public PShape getObstacles() {
-		return obstacles;
-	}
 
 	@Override
 	public void draw() {
