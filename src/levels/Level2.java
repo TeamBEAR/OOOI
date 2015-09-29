@@ -6,12 +6,14 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class Level2 extends Level{
-
+	
+	PShape obstacles;
 	PVector bg_color, color;
 	int state;
 
 	public Level2(PApplet parent, Agent agent){
 		super(parent, agent);
+		obstacles = parent.createShape(parent.GROUP);
 		bg_color = new PVector(0, 0, 0);
 		color = new PVector(0, 255, 0);
 		state = 0;
@@ -44,8 +46,16 @@ public class Level2 extends Level{
 
 		
 	}
-
-
+	
+	public void drawScenery(){
+		parent.noStroke();
+		parent.shape(obstacles);
+	}
+	
+	public PShape getObstacles() {
+		return obstacles;
+	}
+	
 	@Override
 	public void draw() {
 
@@ -62,29 +72,28 @@ public class Level2 extends Level{
 		else
 			bg_color.set(0, 0, 0);
 
-		drawScenery();
 
-		if(parser.isEnterTouch()){
-			if(parser.executeInput(agent)){
-				if(agent.isRadarActive() && state == 1)
-					state++;
-				else if(!agent.isRadarActive() && state == 2){
-					color.set(255, 0, 0);
-					state++;
-				}
-				else if(!agent.isMoving() && state == 3){
-					color.set(0, 255, 0);
-					state++;
-				}
-				else if(agent.isRadarActive() && agent.isMoving() && state == 4){
-					color.set(0, 125, 255);
-					state++;
-					agent.setLooping(false);
-				}
-			}
-			parser.clear();
-		}
-
+	      if(parser.isEnterTouch()){
+	            if(parser.executeInput(agent)){
+	                if(agent.isRadarActive() && state == 1)
+	                    state++;
+	                else if(!agent.isRadarActive() && state == 2){
+	                    color.set(255, 0, 0);
+	                    state++;
+	                }
+	                else if(!agent.isMoving() && state == 3){
+	                       color.set(0, 255, 0);
+	                    state++;
+	                }
+	                else if(agent.isRadarActive() && agent.isMoving() && state == 4){
+	                    color.set(0, 125, 255);
+	                    state++;
+	                    agent.setLooping(false);
+	                }
+	            }
+	            parser.clear();
+	        }
+		
 		switch(state){
 		case 0:
 			/*agent comes from the left*/
@@ -115,6 +124,7 @@ public class Level2 extends Level{
 		//parent.text("to do...",parent.width/2,parent.height/2);
 		print_request();
 		agent.draw();
+		drawScenery();
 	}
 
 	@Override

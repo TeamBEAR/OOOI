@@ -8,7 +8,7 @@ import parser.Parser;
 
 import processing.core.*;
 
-public class Controler extends PApplet{
+public class Main extends PApplet{
 	ILevel level;
 	Agent agent;
 	Parser parser;
@@ -44,9 +44,9 @@ public class Controler extends PApplet{
 	}
 	
 	
-	  
+
 	public static void main(String[] args) {
-		PApplet.main(new String[] { "--present", "Controler" });
+		PApplet.main(new String[] { "--present", "Main" });
 	}
 
 }
