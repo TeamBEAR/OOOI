@@ -1,8 +1,45 @@
 package parser;
 
 import core.Agent;
+/*
+ 
+<STATEMENT> ::= <ASSIGNMENT> | <CALL> | <RESERVED>
+
+<ASSIGNMENT> ::= <A_ID> |
+                 <NEW> <TYPE>: <A_ID>
+
+<PARAM_LIST> = <A_ID> | 
+               <A_ID>, <PARAM_LIST>
+
+<FUNCTION> ::= <F_ID> |
+               <F_ID> <PARAM_LIST>
+                                    
+<CALL> ::= <A_ID>, <FUNCTION> |
+           <A_ID>, <FUNCTION_LIST> |
+           <FUNCTION_LIST>
+
+<FUNCTION_LIST> ::= <FUNCTION> |
+                    <FUNCTION> <CONJUCTION> <FUNCTION_LIST>
+
+<RESERVED> ::= continuer | fermer | continue | exit
+
+<TYPE> ::= Agent
+<NEW> ::= new | nouveau
+<CONJUNCTION> ::= and | et
+
+*/
 
 public class Parser {
+	
+	public class Terminals {
+		public static final int A_ID = 0;
+		public static final int F_ID = 1;
+		public static final int CONJUNCTION = 2;
+		public static final int NEW = 3;
+		public static final int TYPE = 4;
+		public static final int RESERVED = 5;
+	}
+	
 	private String request;
 	private boolean deleteTouch;
 	private boolean enterTouch;
