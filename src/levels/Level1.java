@@ -1,13 +1,12 @@
 package levels;
 
 import processing.core.PApplet;
-import processing.data.StringList;
+import processing.core.PShape;
 import core.Agent;
 
 public class Level1 extends Level{
 
 	String action;//action enabeled
-	int state;
 	int[] green;
 
 	public Level1(PApplet parent, Agent agent){
@@ -17,17 +16,34 @@ public class Level1 extends Level{
 		green[0]=0;
 		green[1]=255;
 		green[2]=0;
-		state=0;
+		
+		createObstacles();
 	}
+	
+	private void createObstacles(){
+		PShape upper_rect = parent.createShape(parent.RECT,
+				(float) (parent.width*0.75),
+				(float) 0, 
+				(float) 50, 
+				(float) (parent.height*0.5-50)
+				);
+		upper_rect.setFill(255);
 
-	//draw game scenery
-	public void draw_scenery(){
-		parent.fill(255);
-		parent.noStroke();
-		parent.rect( (float) (parent.width*0.75), (float) 0, (float) 50, (float) (parent.height*0.5-50));
-		parent.rect( (float) (parent.width*0.75), (float) (parent.height*0.5+50), (float) 50, (float) (parent.height*0.5));
+
+		PShape lower_rect = parent.createShape(parent.RECT,
+				(float) (parent.width*0.75), 
+				(float) (parent.height*0.5+50), 
+				(float) 50, 
+				(float) (parent.height*0.5)
+				);
+		lower_rect.setFill(255);
+
+
+		obstacles.addChild(upper_rect);
+		obstacles.addChild(lower_rect);
+
+		
 	}
-
 
 
 	@Override
@@ -36,7 +52,7 @@ public class Level1 extends Level{
 		//agent must speed up to quit the left area of the game scenery 
 		//and pass the door
 	    parent.background(0); 
-	    draw_scenery();
+	    drawScenery();
 		print_hint(green, action);
 		print_request();
 		if(parser.isEnterTouch()){

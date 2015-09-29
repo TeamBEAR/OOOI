@@ -33,7 +33,7 @@ public class Parser {
 		} else if (pressed_key==10) {
 			//validate request
 			enterTouch=true;
-		} else  if (pressed_key >= 32) {
+		} else  if (pressed_key >= 32 && pressed_key < 168) {
 			//add letter
 			request += (char) pressed_key ;
 			deleteTouch=false;
