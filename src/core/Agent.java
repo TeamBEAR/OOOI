@@ -15,6 +15,8 @@ public class Agent{
   boolean radarActive;
   
   Collider collider;
+  float width;
+  float height;
   
   //default constructor  
   public Agent(PApplet parent, float x,float y){
@@ -28,6 +30,9 @@ public class Agent{
 	  
 	  pos=new PVector(x,y);//initialize position
 	  speed=new PVector(0,0);//no speed
+	  
+	  width=50;
+	  height=50;
 	  
 	  collider = new Collider();
   }
@@ -59,6 +64,13 @@ public class Agent{
 		return collider.circleAndRect(this.radar, obstacles);
 	  }
 	  return false;
+  }
+
+  private boolean touch_obstacles(PShape obstacles){
+		return collider.rectAndRectGroup(
+				parent.createShape(
+						parent.RECT, pos.x-25, pos.y-25, 50, 50), 
+				obstacles);
   }
   
   //speed up
@@ -110,6 +122,22 @@ public class Agent{
 	return pos;
   }
   
+  public float get_x(){
+	  return pos.x;
+  }
+  
+  public float get_y(){
+	  return pos.y;
+  }
+  
+  public float get_width() {
+	return width;
+  }
+  
+  public float get_height() {
+	return height;
+  }
+  
   //update agent position
   public void update(){
     pos.add(speed);
@@ -154,72 +182,6 @@ public class Agent{
   }
 
 
-	private boolean touch_obstacles(PShape obstacles){
-		float[] obstacleParameters;
-		PVector[] corners = new PVector[4];
-		for (int i=0;i<4;i++)
-			corners[i] = new PVector(0, 0);
-
-		float[] obstacle_limits = new float[4];
-		float[] farthest_lines = new float[4];
-
-		float x, y;
-		float dist;
-
-		for(int i=0; i < obstacles.getChildCount(); i++){
-			obstacleParameters = obstacles.getChild(i).getParams();
-			//left
-			obstacle_limits[0] = obstacleParameters[0] - .5f*obstacleParameters[2];
-			//right
-			obstacle_limits[1] = obstacleParameters[0] + .5f*obstacleParameters[2];
-			//upper
-			obstacle_limits[2] = obstacleParameters[1] - .5f*obstacleParameters[3];
-			//lower
-			obstacle_limits[3] = obstacleParameters[1] + .5f*obstacleParameters[3];
-
-			// Test Center
-			if(pos.x >= obstacle_limits[0] && pos.x <= obstacle_limits[1])
-				if(pos.y >= obstacle_limits[2] && pos.y <= obstacle_limits[3])
-					return true;
-
-
-			// The center is not colliding, test corners
-			for(int j=0; j<2; j++){
-				x = obstacle_limits[j];
-				for(int k=2; k<4; k++){
-					y = obstacle_limits[k];
-					dist= (float)Math.sqrt(
-							Math.pow((x-pos.x), 2) + 
-							Math.pow((y-pos.y), 2)
-							);
-					if(dist <= radarState.x/2.0f)
-						return true;
-				}
-
-			}
-
-			// The corners are not colliding, test limits
-			//left of Agent
-			farthest_lines[0] = pos.x - .5f*radarState.x;
-			//right of Agent
-			farthest_lines[1] = pos.x + .5f*radarState.x;
-			//up of Agent
-			farthest_lines[2] = pos.y - .5f*radarState.y;
-			//down of Agent
-			farthest_lines[3] = pos.y + .5f*radarState.y;
-			for(int j =0; j<4; j++)
-			{
-				if (farthest_lines[j] >= obstacle_limits[0] && farthest_lines[j] <= obstacle_limits[1])
-					if(farthest_lines[j] >= obstacle_limits[2] && farthest_lines[j] <= obstacle_limits[3])
-						return true;
-			}
-		}
-
-		return false;
-	}
-
-	
-	
 	public void inverse_x_speed(){
 		speed.set(-1*speed.x,speed.y);
 	}
@@ -247,6 +209,7 @@ public class Agent{
 	parent.ellipseMode(parent.RADIUS);
 	if(radarActive){
 		parent.noFill();
+		parent.stroke(255);
 		parent.shape(radar);
 	}else{
     	parent.stroke(0);
@@ -265,3 +228,4 @@ public class Agent{
     }
 
   }
+}
