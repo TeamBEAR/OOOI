@@ -4,14 +4,14 @@ import levels.ILevel;
 import levels.Level;
 import levels.Level0;
 import levels.Level1;
-import parser.Parser;
+import parser.Interpreter;
 
 import processing.core.*;
 
 public class Main extends PApplet{
 	ILevel level;
 	Agent agent;
-	Parser parser;
+	Interpreter parser;
 
 	public void settings(){
 		size(displayWidth, displayHeight);

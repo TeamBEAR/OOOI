@@ -1,5 +1,5 @@
 package levels;
-import parser.Parser;
+import parser.Interpreter;
 import core.Agent;
 import processing.core.PApplet;
 import processing.core.PShape;
@@ -10,14 +10,14 @@ public abstract class Level implements ILevel{
 	Agent agent;
 	String request;
 	boolean finished;
-	Parser parser;
+	Interpreter parser;
 	PShape obstacles;
 	
 	public Level(PApplet parent, Agent agent){
 		this.finished = false;
 		this.parent = parent;
 		this.agent = agent;
-		this.parser = new Parser();
+		this.parser = new Interpreter();
 		this.request = "";
 
 		obstacles = parent.createShape(parent.GROUP);

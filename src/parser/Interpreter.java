@@ -2,7 +2,8 @@ package parser;
 
 import core.Agent;
 /*
- 
+
+<S> ::= <STATEMENT> ;
 <STATEMENT> ::= <ASSIGNMENT> | <CALL> | <RESERVED>
 
 <ASSIGNMENT> ::= <A_ID> |
@@ -29,27 +30,20 @@ import core.Agent;
 
 */
 
-public class Parser {
-	
-	public class Terminals {
-		public static final int A_ID = 0;
-		public static final int F_ID = 1;
-		public static final int CONJUNCTION = 2;
-		public static final int NEW = 3;
-		public static final int TYPE = 4;
-		public static final int RESERVED = 5;
-	}
+public class Interpreter {
 	
 	private String request;
 	private boolean deleteTouch;
 	private boolean enterTouch;
 	private boolean levelFinished;
+	private BearParser parser;
 	
-	public Parser(){
+	public Interpreter(){
 		deleteTouch=false;
 		request=new String();
 		enterTouch=false;
 		levelFinished=false;
+		parser = new BearParser();
 	}
 	
 	public void clear(){

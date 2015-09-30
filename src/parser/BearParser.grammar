@@ -1,0 +1,38 @@
+%header {:
+ // this code is inlined before the generated parser
+ package parser;
+:};
+
+%embed {:
+ // this code is inlined in the generated parser class
+:};
+
+%terminals SEMICOLON, RESERVED, NEW, TYPE_AGENT, COLON, A_ID, COMMA, F_ID, CONJUNCTION;
+%goal goal;
+
+goal = statement SEMICOLON {:System.out.println("0");return new Symbol(0);:}
+        ;
+statement = assignment {:System.out.println("1");return new Symbol(1);:}
+                 | call              {:System.out.println("2");return new Symbol(2);:}
+                 | RESERVED  {:System.out.println("3");return new Symbol(3);:}
+                 ;
+
+assignment = A_ID                                             {:System.out.println("4");return new Symbol(4);:}
+                   | NEW TYPE_AGENT COLON A_ID {:System.out.println("5");return new Symbol(5);:}
+                   ;
+
+paramlist = A_ID                              {:System.out.println("6");return new Symbol(6);:}
+                | A_ID COMMA paramlist {:System.out.println("7");return new Symbol(7);:}
+                ;
+                
+function = F_ID                {:System.out.println("8");return new Symbol(8);:}
+              | F_ID paramlist {:System.out.println("9");return new Symbol(9);:}
+              ;
+              
+call = A_ID COMMA functionlist {:System.out.println("10");return new Symbol(10);:}
+       | functionlist                        {:System.out.println("11");return new Symbol(11);:}
+       ;
+                                    
+functionlist = function                                            {:System.out.println("12");return new Symbol(12);:}
+                   | function CONJUNCTION functionlist {:System.out.println("13");return new Symbol(13);:}
+                   ;
