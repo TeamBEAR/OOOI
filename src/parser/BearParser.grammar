@@ -1,10 +1,24 @@
 %header {:
  // this code is inlined before the generated parser
  package parser;
+ 
+ import execution.Execution;
+ import execution.commands.*;
+ import core.Context;
+
 :};
 
 %embed {:
  // this code is inlined in the generated parser class
+ 
+ Execution execution;
+ Context context;
+ 
+ public BearParser(Context context){
+     this();
+     this.context = context;
+     this.execution = new Execution();
+ }
 :};
 
 %terminals SEMICOLON, RESERVED, NEW, TYPE_AGENT, COLON, A_ID, COMMA, F_ID, CONJUNCTION;
@@ -17,8 +31,9 @@ statement = assignment {:System.out.println("1");return new Symbol(1);:}
                  | RESERVED  {:System.out.println("3");return new Symbol(3);:}
                  ;
 
-assignment = A_ID                                             {:System.out.println("4");return new Symbol(4);:}
-                   | NEW TYPE_AGENT COLON A_ID {:System.out.println("5");return new Symbol(5);:}
+assignment = A_ID.a_id                                             {:execution.add(new assignment("Agent", (String)a_id.value, context));
+                                                                                     System.out.println("4");return new Symbol(4);:}
+                   | NEW TYPE_AGENT COLON A_ID         {:System.out.println("5");return new Symbol(5);:}
                    ;
 
 paramlist = A_ID                              {:System.out.println("6");return new Symbol(6);:}

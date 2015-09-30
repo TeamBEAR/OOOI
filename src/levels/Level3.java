@@ -1,6 +1,8 @@
 package levels;
 
-import core.Agent;
+import core.Context;
+import core.Main;
+import core.types.Agent;
 import processing.core.PApplet;
 
 public class Level3 extends Level{
@@ -10,8 +12,8 @@ public class Level3 extends Level{
 	int current_direction;
 	int state;
 	
-	public Level3(PApplet parent, Agent agent){
-		super(parent, agent);
+	public Level3(Main parent){
+		super(parent);
 		this.request = "";
 		this.current_direction = 0;
 		this.state = 0;
@@ -29,23 +31,23 @@ public class Level3 extends Level{
 	@Override
 	public void draw() {
 	    
-	    if(parser.isEnterTouch()){
-	        parser.executeInput(agent);
-	        if(parser.isLevelFinished()){
-	            parser.resetLevelFinished();
+	    if(interpreter.isEnterTouch()){
+	        interpreter.executeInput(parent.getAgent());
+	        if(interpreter.isLevelFinished()){
+	            interpreter.resetLevelFinished();
 	            this.setFinished(true);
 	        }
 	        
 	        // Change message
-	        if(parser.getRequest().equals(directions[current_direction]))
+	        if(interpreter.getRequest().equals(directions[current_direction]))
 	            current_direction++;
 	        
-	        parser.clear();
+	        interpreter.clear();
 	    }
 	    
 		switch(state){
 		case 0: // Preparation state
-			agent.setLooping(true);
+		    parent.getAgent().setLooping(true);
 			state = 1;
 		case 1:
 			if(current_direction == directions.length-2){
@@ -58,7 +60,7 @@ public class Level3 extends Level{
 			parent.background(0);
 			print_hint(command_color, directions[current_direction]);
 			print_request();
-			agent.draw();
+			parent.getAgent().draw();
 			break;
 		}
 	}
@@ -82,6 +84,6 @@ public class Level3 extends Level{
 	@Override
 	public ILevel getNextLevel() {
 		// TODO Auto-generated method stub
-		return new Level4(this.parent,this.agent);
+		return new Level4(this.parent);
 	}
 }

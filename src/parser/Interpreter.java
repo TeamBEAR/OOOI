@@ -1,6 +1,5 @@
 package parser;
 
-import core.Agent;
 /*
 
 <S> ::= <STATEMENT> ;
@@ -29,6 +28,8 @@ import core.Agent;
 <CONJUNCTION> ::= and | et
 
 */
+import core.Context;
+import core.types.Agent;
 
 public class Interpreter {
 	
@@ -38,12 +39,12 @@ public class Interpreter {
 	private boolean levelFinished;
 	private BearParser parser;
 	
-	public Interpreter(){
+	public Interpreter(Context context){
 		deleteTouch=false;
 		request=new String();
 		enterTouch=false;
 		levelFinished=false;
-		parser = new BearParser();
+		parser = new BearParser(context);
 	}
 	
 	public void clear(){
@@ -82,12 +83,18 @@ public class Interpreter {
 		return enterTouch;
 	}
 	
+	public void parseInput(){
+	       try{
+	           if(!request.endsWith(";")) // Artificially add SEMICOLON token
+                   request+=";";
+	            parser.parse(new BearScanner(new java.io.StringReader(request)));
+	        }catch(Exception e){
+	            
+	        }
+	       parser.execution.run();
+	}
+	
 	public boolean executeInput(Agent agent) {
-	    try{
-	        parser.parse(new BearScanner(new java.io.StringReader(request)));
-	    }catch(Exception e){
-	        
-	    }
 	    if(request.equals("virer.droite")){
 	        agent.turnRight();
 	        return true;

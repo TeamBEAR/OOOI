@@ -1,5 +1,10 @@
 // this code is inlined before the generated parser
  package parser;
+ 
+ import execution.Execution;
+ import execution.commands.*;
+ import core.Context;
+
 
 import java.util.ArrayList;
 import beaver.*;
@@ -30,6 +35,15 @@ public class BearParser extends Parser {
 		"a$oV8ZLoLv$vknS$oxxi8rz4Jz$RRS#iSRdTzIwrETKCwMIMDBJaNVabKlK7m3cIZCJ");
 
  // this code is inlined in the generated parser class
+ 
+ Execution execution;
+ Context context;
+ 
+ public BearParser(Context context){
+     this();
+     this.context = context;
+     this.execution = new Execution();
+ }
 
 	private final Action[] actions;
 
@@ -56,9 +70,11 @@ public class BearParser extends Parser {
 					System.out.println("3");return new Symbol(3);
 				}
 			},
-			new Action() {	// [4] assignment = A_ID
+			new Action() {	// [4] assignment = A_ID.a_id
 				public Symbol reduce(Symbol[] _symbols, int offset) {
-					System.out.println("4");return new Symbol(4);
+					final Symbol a_id = _symbols[offset + 1];
+					execution.add(new assignment("Agent", (String)a_id.value, context));
+                                                                                     System.out.println("4");return new Symbol(4);
 				}
 			},
 			new Action() {	// [5] assignment = NEW TYPE_AGENT COLON A_ID

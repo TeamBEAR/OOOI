@@ -1,6 +1,8 @@
 package levels;
 
-import core.Agent;
+import core.Context;
+import core.Main;
+import core.types.Agent;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
@@ -12,8 +14,8 @@ public class Level4 extends Level{
 	int current_direction;
 	PVector bg_color, color;
 
-	public Level4(PApplet parent, Agent agent){
-		super(parent, agent);
+	public Level4(Main parent){
+		super(parent);
 		this.request = "";
 		this.current_direction = 0;
 		
@@ -29,13 +31,13 @@ public class Level4 extends Level{
 		this.directions[2] = "arreter";
 		this.directions[3] = "continuer";
 		
-		if(!agent.isMoving()){
-			agent.speed_up();
+		if(!parent.getAgent().isMoving()){
+		    parent.getAgent().speed_up();
 		}
 
-		parser.resetLevelFinished();
+		interpreter.resetLevelFinished();
 
-		agent.setPos(10,(float)(parent.height*0.5));
+		parent.getAgent().setPos(10,(float)(parent.height*0.5));
 		createObstacles();
 		state=0;
 	}
@@ -74,10 +76,10 @@ public class Level4 extends Level{
 		float x, y;
 		float dist;
 
-		float bb_x0=agent.get_x()-(agent.get_width()/2);
-		float bb_x1=agent.get_x()+(agent.get_width()/2);
-		float bb_y0=agent.get_y()-(agent.get_height()/2);
-		float bb_y1=agent.get_y()+(agent.get_height()/2);
+		float bb_x0=parent.getAgent().get_x()-(parent.getAgent().get_width()/2);
+		float bb_x1=parent.getAgent().get_x()+(parent.getAgent().get_width()/2);
+		float bb_y0=parent.getAgent().get_y()-(parent.getAgent().get_height()/2);
+		float bb_y1=parent.getAgent().get_y()+(parent.getAgent().get_height()/2);
 
 		for(int i=0; i < obstacles.getChildCount(); i++){
 			obstacleParameters = obstacles.getChild(i).getParams();
@@ -99,22 +101,22 @@ public class Level4 extends Level{
 
 			if(bb_x1>xmin && bb_x1<xmax){
 				if(bb_y1>ymin && bb_y1<ymax){
-					agent.inverse_x_speed();
+				    parent.getAgent().inverse_x_speed();
 				}
 			}else if(bb_x0>xmin && bb_x0<xmax){
 				if(bb_y0>ymin && bb_y0<ymax){
-					agent.inverse_x_speed();
+				    parent.getAgent().inverse_x_speed();
 				}
 
 			}
 
 			if(bb_y1>ymin && bb_y1<ymax){
 				if(bb_x1>xmin && bb_x1<xmax){
-					agent.inverse_y_speed();
+				    parent.getAgent().inverse_y_speed();
 				}	
 			}else if(bb_y0>ymin && bb_y0<ymax){
 				if(bb_x0>xmin && bb_x0<xmax){
-					agent.inverse_y_speed();
+				    parent.getAgent().inverse_y_speed();
 				}					
 			}
 
@@ -127,7 +129,7 @@ public class Level4 extends Level{
 	public void draw(){
 		
 
-		if(agent.radarReadsRectangle(obstacles))
+		if(parent.getAgent().radarReadsRectangle(obstacles))
 			bg_color=new PVector(255, 0, 0);
 
 		parent.background(
@@ -140,13 +142,13 @@ public class Level4 extends Level{
 		else
 			bg_color.set(0, 0, 0);
 		
-		if(parser.isEnterTouch()){
-			parser.executeInput(agent);
-			parser.clear();
+		if(interpreter.isEnterTouch()){
+		    interpreter.executeInput(parent.getAgent());
+		    interpreter.clear();
 		}
 
 		if(state==0){
-			if(agent.get_x()>100){
+			if(parent.getAgent().get_x()>100){
 				createObstableRect((float)0,(float)0,(float)50,(float)(parent.height*0.75));
 				state++;
 			}
@@ -157,10 +159,10 @@ public class Level4 extends Level{
 		parent.background(0); 
 		drawScenery();
 		print_request();
-		agent.draw();
+		parent.getAgent().draw();
 		collision();
 		if(state>0){
-			if(agent.isOutOfBounds()){
+			if(parent.getAgent().isOutOfBounds()){
 
 				this.setFinished(true);
 			}
@@ -172,7 +174,7 @@ public class Level4 extends Level{
 	@Override
 	public ILevel getNextLevel() {
 		// TODO Auto-generated method stub
-		return new EndLevel(this.parent,this.agent);
+		return new EndLevel(this.parent);
 	}
 
 }

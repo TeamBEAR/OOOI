@@ -1,23 +1,22 @@
 package levels;
 import parser.Interpreter;
-import core.Agent;
+import core.Context;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
+import core.Main;
 
 public abstract class Level implements ILevel{
-	PApplet parent;
-	Agent agent;
+	Main parent;
 	String request;
 	boolean finished;
-	Interpreter parser;
+	Interpreter interpreter;
 	PShape obstacles;
 	
-	public Level(PApplet parent, Agent agent){
+	public Level(Main parent){
 		this.finished = false;
 		this.parent = parent;
-		this.agent = agent;
-		this.parser = new Interpreter();
+		this.interpreter = new Interpreter(((Main) parent).getContext());
 		this.request = "";
 
 		obstacles = parent.createShape(parent.GROUP);
@@ -41,14 +40,14 @@ public abstract class Level implements ILevel{
 	}
 	
 	public void handleInput(int pressed_key) {
-		parser.handleInput(pressed_key);
+		interpreter.handleInput(pressed_key);
 	}
 
 	//print what user tip
 	public void print_request(){
 		parent.textSize(32);
 		parent.fill(125);  
-		parent.text("> " + parser.getRequest(), 10, (float) (parent.height*0.85));
+		parent.text("> " + interpreter.getRequest(), 10, (float) (parent.height*0.85));
 	}
 	
 	public void print_arbitrary_message(String msg){
@@ -64,7 +63,7 @@ public abstract class Level implements ILevel{
 	
 	public void print_hint(int[] color, String direction){
 		parent.textSize(32);
-		String hint = agent.getName() + " tu peux ";
+		String hint = parent.getAgent().getName() + " tu peux ";
 		parent.fill(255);
 		parent.text(hint, 10, (float) (parent.height*0.75));
 		parent.fill(color[0], color[1], color[2]);

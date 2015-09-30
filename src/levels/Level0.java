@@ -1,6 +1,8 @@
 package levels;
 
-import core.Agent;
+import core.Context;
+import core.Main;
+import core.types.Agent;
 import processing.core.PApplet;
 
 /**
@@ -11,10 +13,10 @@ import processing.core.PApplet;
  */
 public class Level0 extends Level {
 
-	public Level0(PApplet parent, Agent agent) {
-		super(parent, agent);
+	public Level0(Main parent) {
+		super(parent);
 		askName();
-		printName(parser.getRequest());
+		printName(interpreter.getRequest());
 	}
 	
 	/**
@@ -38,18 +40,20 @@ public class Level0 extends Level {
 	}
 	
 	public void draw(){
-		if(parser.isEnterTouch()){
-			agent.setName(parser.getRequest());
-			finished=true;
+		if(interpreter.isEnterTouch()){
+			//agent.setName(interpreter.getRequest());
+		    interpreter.parseInput();
+			if(!parent.getAgent().equals(null))
+			    finished=true;
 		}else {			
 			askName();
-			printName(parser.getRequest());			
+			printName(interpreter.getRequest());			
 		}		
 	}
 
 	@Override
 	public ILevel getNextLevel() {
 		// TODO Auto-generated method stub
-		return new Level1(this.parent,this.agent);
+		return new Level1(this.parent);
 	}
 }

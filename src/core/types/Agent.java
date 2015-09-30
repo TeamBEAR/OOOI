@@ -1,5 +1,6 @@
-package core;
+package core.types;
 
+import core.Collider;
 import processing.core.*;
 import processing.core.PVector;
 
@@ -17,6 +18,11 @@ public class Agent{
   Collider collider;
   float width;
   float height;
+  
+  // simple constructor
+  public Agent(PApplet parent){
+      this(parent, parent.width/2, parent.height/2);
+  }
   
   //default constructor  
   public Agent(PApplet parent, float x,float y){

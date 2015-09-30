@@ -1,29 +1,39 @@
-
-import core.Agent;
+package core;
+import core.Context;
+import core.types.Agent;
 import levels.ILevel;
-import levels.Level;
 import levels.Level0;
-import levels.Level1;
-import parser.Interpreter;
 
 import processing.core.*;
 
 public class Main extends PApplet{
 	ILevel level;
 	Agent agent;
-	Interpreter parser;
+	Context context;
 
 	public void settings(){
 		size(displayWidth, displayHeight);
 	}
 	
+	public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+	
+	public Agent getAgent() {
+        return agent;
+    }
+	
 	//processing initialization function
 	public void setup() {
 		background(0);
-        agent = new Agent(this, width/2, height/2);
+		context = new Context();
+		context.registerVar("Main", "Main", this);
+		agent = null;
         
         //  TODO: Dynamic assignment of levels, maybe with a factory?
-        level =  new Level0(this, agent);
+        level =  new Level0(this);
+        
+        context.registerVar("Level", "current", (Object) level);
         
 	}
 	
@@ -43,10 +53,12 @@ public class Main extends PApplet{
 		level.handleInput(key);
 	}
 	
-	
+	public Context getContext() {
+        return context;
+    }
 
 	public static void main(String[] args) {
-		PApplet.main(new String[] { "--present", "Main" });
+		PApplet.main(new String[] { "--present", "core.Main" });
 	}
 
 }

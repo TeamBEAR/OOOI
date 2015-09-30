@@ -1,12 +1,14 @@
 package levels;
 
-import core.Agent;
+import core.Context;
+import core.Main;
+import core.types.Agent;
 import processing.core.PApplet;
 
 public class EndLevel extends Level {
 
-	public EndLevel(PApplet parent, Agent agent) {
-		super(parent, agent);
+	public EndLevel(Main parent) {
+		super(parent);
 	}
 
 	public void draw(){

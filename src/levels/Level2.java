@@ -1,6 +1,8 @@
 package levels;
 
-import core.Agent;
+import core.Context;
+import core.Main;
+import core.types.Agent;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
@@ -11,8 +13,8 @@ public class Level2 extends Level{
 	PVector bg_color, color;
 	int state;
 
-	public Level2(PApplet parent, Agent agent){
-		super(parent, agent);
+	public Level2(Main parent){
+		super(parent);
 		obstacles = parent.createShape(parent.GROUP);
 		bg_color = new PVector(0, 0, 0);
 		color = new PVector(0, 255, 0);
@@ -59,7 +61,7 @@ public class Level2 extends Level{
 	@Override
 	public void draw() {
 
-		if(agent.radarReadsRectangle(obstacles))
+		if(parent.getAgent().radarReadsRectangle(obstacles))
 			bg_color=new PVector(255, 0, 0);
 
 		parent.background(
@@ -73,32 +75,32 @@ public class Level2 extends Level{
 			bg_color.set(0, 0, 0);
 
 
-	      if(parser.isEnterTouch()){
-	            if(parser.executeInput(agent)){
-	                if(agent.isRadarActive() && state == 1)
+	      if(interpreter.isEnterTouch()){
+	            if(interpreter.executeInput(parent.getAgent())){
+	                if(parent.getAgent().isRadarActive() && state == 1)
 	                    state++;
-	                else if(!agent.isRadarActive() && state == 2){
+	                else if(!parent.getAgent().isRadarActive() && state == 2){
 	                    color.set(255, 0, 0);
 	                    state++;
 	                }
-	                else if(!agent.isMoving() && state == 3){
+	                else if(!parent.getAgent().isMoving() && state == 3){
 	                       color.set(0, 255, 0);
 	                    state++;
 	                }
-	                else if(agent.isRadarActive() && agent.isMoving() && state == 4){
+	                else if(parent.getAgent().isRadarActive() && parent.getAgent().isMoving() && state == 4){
 	                    color.set(0, 125, 255);
 	                    state++;
-	                    agent.setLooping(false);
+	                    parent.getAgent().setLooping(false);
 	                }
 	            }
-	            parser.clear();
+	            interpreter.clear();
 	        }
 		
 		switch(state){
 		case 0:
 			/*agent comes from the left*/
-			agent.setPos(-50, agent.getPos().y);
-			agent.setLooping(true);
+		    parent.getAgent().setPos(-50, parent.getAgent().getPos().y);
+		    parent.getAgent().setLooping(true);
 			state++;
 		case 1:
 			print_hint(color, "allumer.radar");
@@ -114,8 +116,8 @@ public class Level2 extends Level{
 			break;
 		case 5:
 			// You can type "continuer" or wait
-			if(parser.isLevelFinished() || agent.isOutOfBounds()){
-				parser.resetLevelFinished();
+			if(interpreter.isLevelFinished() || parent.getAgent().isOutOfBounds()){
+			    interpreter.resetLevelFinished();
 				this.setFinished(true);
 			}
 			break;
@@ -123,13 +125,13 @@ public class Level2 extends Level{
 		//parent.textSize(32);
 		//parent.text("to do...",parent.width/2,parent.height/2);
 		print_request();
-		agent.draw();
+		parent.getAgent().draw();
 		drawScenery();
 	}
 
 	@Override
 	public ILevel getNextLevel() {
 		// TODO Auto-generated method stub
-		return new Level3(this.parent,this.agent);
+		return new Level3(this.parent);
 	}
 }

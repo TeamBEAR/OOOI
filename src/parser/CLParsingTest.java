@@ -3,6 +3,8 @@ package parser;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import core.Context;
+
 public class CLParsingTest {
     public static void main(String[] args) {
         try{
@@ -10,7 +12,7 @@ public class CLParsingTest {
             String input="";
             Boolean finished = false;
             // Create parser
-            BearParser parser=new BearParser();
+            BearParser parser=new BearParser(new Context());
             while(!finished){
                 System.out.print("Parse>");
                 input = reader.readLine(); //Read input

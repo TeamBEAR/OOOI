@@ -2,15 +2,17 @@ package levels;
 
 import processing.core.PApplet;
 import processing.core.PShape;
-import core.Agent;
+import core.Context;
+import core.Main;
+import core.types.Agent;
 
 public class Level1 extends Level{
 
 	String action;//action enabeled
 	int[] green;
 
-	public Level1(PApplet parent, Agent agent){
-		super(parent, agent);
+	public Level1(Main parent){
+		super(parent);
 		this.action = new String("accelerer");
 		green = new int[3];
 		green[0]=0;
@@ -55,14 +57,14 @@ public class Level1 extends Level{
 	    drawScenery();
 		print_hint(green, action);
 		print_request();
-		if(parser.isEnterTouch()){
-			if(parser.getRequest().equals(action)){
-				parser.clear();
-				agent.speed_up();
+		if(interpreter.isEnterTouch()){
+			if(interpreter.getRequest().equals(action)){
+			    interpreter.clear();
+			    parent.getAgent().speed_up();
 			}
 		}
-		agent.draw();
-		if(agent.isOutOfBounds()){
+		parent.getAgent().draw();
+		if(parent.getAgent().isOutOfBounds()){
 			this.setFinished(true);
 		}
 	}
@@ -72,7 +74,7 @@ public class Level1 extends Level{
 	@Override
 	public ILevel getNextLevel() {
 		// TODO Auto-generated method stub
-		return new Level2(this.parent,this.agent);
+		return new Level2(this.parent);
 	}
 
 
