@@ -43,7 +43,7 @@ public class Level0 extends Level {
 		if(interpreter.isEnterTouch()){
 			//agent.setName(interpreter.getRequest());
 		    interpreter.parseInput();
-			if(!parent.getAgent().equals(null))
+			if(parent.getAgent() != null)
 			    finished=true;
 		}else {			
 			askName();

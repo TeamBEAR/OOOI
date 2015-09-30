@@ -3,6 +3,7 @@
  
  import execution.Execution;
  import execution.commands.*;
+ import execution.CommandFactory;
  import core.Context;
 
 
@@ -92,9 +93,11 @@ public class BearParser extends Parser {
 					System.out.println("7");return new Symbol(7);
 				}
 			},
-			new Action() {	// [8] function = F_ID
+			new Action() {	// [8] function = F_ID.f_id
 				public Symbol reduce(Symbol[] _symbols, int offset) {
-					System.out.println("8");return new Symbol(8);
+					final Symbol f_id = _symbols[offset + 1];
+					 execution.add(CommandFactory.get((String)f_id.value, context));
+                                                   System.out.println("8");return new Symbol(8);
 				}
 			},
 			new Action() {	// [9] function = F_ID paramlist

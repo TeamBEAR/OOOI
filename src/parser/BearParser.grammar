@@ -4,6 +4,7 @@
  
  import execution.Execution;
  import execution.commands.*;
+ import execution.CommandFactory;
  import core.Context;
 
 :};
@@ -40,7 +41,8 @@ paramlist = A_ID                              {:System.out.println("6");return n
                 | A_ID COMMA paramlist {:System.out.println("7");return new Symbol(7);:}
                 ;
                 
-function = F_ID                {:System.out.println("8");return new Symbol(8);:}
+function = F_ID.f_id                {: execution.add(CommandFactory.get((String)f_id.value, context));
+                                                   System.out.println("8");return new Symbol(8);:}
               | F_ID paramlist {:System.out.println("9");return new Symbol(9);:}
               ;
               

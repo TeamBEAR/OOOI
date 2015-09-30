@@ -1,6 +1,6 @@
 package execution;
 
-public interface Instruction {
+public interface Command {
 
     public void execute();
 }

@@ -58,10 +58,7 @@ public class Level1 extends Level{
 		print_hint(green, action);
 		print_request();
 		if(interpreter.isEnterTouch()){
-			if(interpreter.getRequest().equals(action)){
-			    interpreter.clear();
-			    parent.getAgent().speed_up();
-			}
+		    interpreter.parseInput();
 		}
 		parent.getAgent().draw();
 		if(parent.getAgent().isOutOfBounds()){

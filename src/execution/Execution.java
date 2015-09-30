@@ -4,14 +4,15 @@ import java.util.LinkedList;
 
 public class Execution {
 
-    LinkedList<Instruction> buffer;
+    LinkedList<Command> buffer;
     
     public Execution(){
-        this.buffer = new LinkedList<Instruction>();
+        this.buffer = new LinkedList<Command>();
     }
     
-    public void add(Instruction ins){
-        buffer.add(ins);
+    public void add(Command ins){
+        if(ins != null)
+            buffer.add(ins);
     }
     
     public void run(){

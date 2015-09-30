@@ -49,6 +49,7 @@ public class Interpreter {
 	
 	public void clear(){
 		request="";
+		enterTouch=false;
 	}
 	public void handleInput(int pressed_key) {
 		if(enterTouch){
@@ -85,13 +86,13 @@ public class Interpreter {
 	
 	public void parseInput(){
 	       try{
-	           if(!request.endsWith(";")) // Artificially add SEMICOLON token
-                   request+=";";
-	            parser.parse(new BearScanner(new java.io.StringReader(request)));
+	            // Artificially add SEMICOLON token
+	            parser.parse(new BearScanner(new java.io.StringReader(request+";")));
 	        }catch(Exception e){
 	            
 	        }
 	       parser.execution.run();
+	       clear();
 	}
 	
 	public boolean executeInput(Agent agent) {
