@@ -10,11 +10,12 @@ Pour executer:
 
 1. Click droit sur Main.java -> Run As -> 1 Java Application
 
-Pour regenerer le ``parser'' et ``lexer'', depuis le dossier ``src/parser'':
+Pour regenerer le ``parser'' et ``lexer'' du langage Bear:
 
-1. Executer:
-        java -jar ../../beaver-cc.jar BearParser.grammar
+1. Depuis le dossier ``src/parser''.
 2. Executer
+        java -jar ../../beaver-cc.jar BearParser.grammar
+3. Executer
         java -jar ../../jflex.jar BearScanner.flex
     
 La classe CLParsingTest.java sert à essayer le parseur resultant.

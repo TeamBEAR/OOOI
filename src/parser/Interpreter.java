@@ -83,7 +83,11 @@ public class Interpreter {
 	}
 	
 	public boolean executeInput(Agent agent) {
-        /*Here we must use a true parser*/
+	    try{
+	        parser.parse(new BearScanner(new java.io.StringReader(request)));
+	    }catch(Exception e){
+	        
+	    }
 	    if(request.equals("virer.droite")){
 	        agent.turnRight();
 	        return true;
