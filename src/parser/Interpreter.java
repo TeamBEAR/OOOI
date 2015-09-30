@@ -1,5 +1,7 @@
 package parser;
 
+import java.util.ArrayList;
+
 /*
 
 <S> ::= <STATEMENT> ;
@@ -30,6 +32,7 @@ package parser;
 */
 import core.Context;
 import core.types.Agent;
+import processing.core.PConstants;
 
 public class Interpreter {
 	
@@ -38,6 +41,8 @@ public class Interpreter {
 	private boolean enterTouch;
 	private boolean levelFinished;
 	private BearParser parser;
+	private ArrayList<String> cl_buffer;
+	private int cl_counter;
 	
 	public Interpreter(Context context){
 		deleteTouch=false;
@@ -45,6 +50,8 @@ public class Interpreter {
 		enterTouch=false;
 		levelFinished=false;
 		parser = new BearParser(context);
+		cl_buffer = new ArrayList<String>();
+		cl_counter = 0;
 	}
 	
 	public void clear(){
@@ -61,17 +68,39 @@ public class Interpreter {
 				request=request.substring(0, request.length()-1);
 			} catch (Exception e) {
 				request="";
+				cl_counter=-1;
 			}
 			deleteTouch=true;
 		} else if (pressed_key==10) {
 			//validate request
-			enterTouch=true;
+		    if(!request.equals("")){
+			    cl_buffer.add(request);
+			    cl_counter=-1;
+			    }
+	         enterTouch=true;
 		} else  if (pressed_key >= 32 && pressed_key < 168) {
 			//add letter
 			request += (char) pressed_key ;
 			deleteTouch=false;
 			enterTouch=false;
-		}		
+		}
+	}
+	
+	public void handleCodedInput(int pressed_key){
+	    if(cl_buffer.size()!=0){
+    	    if(pressed_key == PConstants.DOWN){
+    	        if(cl_counter > 0 && cl_counter < cl_buffer.size()){
+                    cl_counter++;
+    	            request = cl_buffer.get(cl_counter-1);
+    	        }
+    	    }else if (pressed_key == PConstants.UP) {
+    	        if(cl_counter < 0)
+    	            cl_counter=cl_buffer.size();
+    	        else if(cl_counter-1 > 0)
+    	            cl_counter--;
+    	        request = cl_buffer.get(cl_counter-1);
+            }
+	    }
 	}
 	
 	public String getRequest() {

@@ -27,9 +27,10 @@
 
 goal = statement SEMICOLON {:System.out.println("0");return new Symbol(0);:}
         ;
-statement = assignment {:System.out.println("1");return new Symbol(1);:}
-                 | call              {:System.out.println("2");return new Symbol(2);:}
-                 | RESERVED  {:System.out.println("3");return new Symbol(3);:}
+statement = assignment               {:System.out.println("1");return new Symbol(1);:}
+                 | call                            {:System.out.println("2");return new Symbol(2);:}
+                 | RESERVED.reserved  {: execution.add(CommandFactory.get((String)reserved.value, context));
+                                                         System.out.println("3");return new Symbol(3);:}
                  ;
 
 assignment = A_ID.a_id                                             {:execution.add(new assignment("Agent", (String)a_id.value, context));

@@ -66,9 +66,11 @@ public class BearParser extends Parser {
 					System.out.println("2");return new Symbol(2);
 				}
 			},
-			new Action() {	// [3] statement = RESERVED
+			new Action() {	// [3] statement = RESERVED.reserved
 				public Symbol reduce(Symbol[] _symbols, int offset) {
-					System.out.println("3");return new Symbol(3);
+					final Symbol reserved = _symbols[offset + 1];
+					 execution.add(CommandFactory.get((String)reserved.value, context));
+                                                         System.out.println("3");return new Symbol(3);
 				}
 			},
 			new Action() {	// [4] assignment = A_ID.a_id

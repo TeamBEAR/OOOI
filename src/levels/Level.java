@@ -16,7 +16,12 @@ public abstract class Level implements ILevel{
 	public Level(Main parent){
 		this.finished = false;
 		this.parent = parent;
-		this.interpreter = new Interpreter(((Main) parent).getContext());
+		if(parent.getContext().hasVar("Interpreter"))
+		    this.interpreter = (Interpreter) parent.getContext().getVar("Interpreter");
+		else{
+		    this.interpreter = new Interpreter(parent.getContext());
+		    parent.getContext().registerVar("Interpreter", this.interpreter);
+		}
 		this.request = "";
 
 		obstacles = parent.createShape(parent.GROUP);
@@ -41,6 +46,10 @@ public abstract class Level implements ILevel{
 	
 	public void handleInput(int pressed_key) {
 		interpreter.handleInput(pressed_key);
+	}
+	
+	public void handleCodedInput(int pressed_key){
+	    interpreter.handleCodedInput(pressed_key);
 	}
 
 	//print what user tip

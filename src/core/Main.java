@@ -1,5 +1,6 @@
 package core;
 import core.Context;
+
 import core.types.Agent;
 import levels.ILevel;
 import levels.Level0;
@@ -50,7 +51,10 @@ public class Main extends PApplet{
 	//read what user type and update string containing previous text
 	//this function has some bugs
 	public void keyPressed() {
-		level.handleInput(key);
+	    if(key == CODED)
+	        level.handleCodedInput(keyCode);
+	    else
+		    level.handleInput(key);
 	}
 	
 	public Context getContext() {
