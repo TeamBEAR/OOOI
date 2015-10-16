@@ -9,15 +9,10 @@ import processing.core.PVector;
 
 public class Level2 extends Level{
 	
-	PShape obstacles;
-	PVector bg_color, color;
 	int state;
 
 	public Level2(Main parent){
 		super(parent);
-		obstacles = parent.createShape(parent.GROUP);
-		bg_color = new PVector(0, 0, 0);
-		color = new PVector(0, 255, 0);
 		state = 0;
 		
 		createObstacles();
@@ -60,19 +55,8 @@ public class Level2 extends Level{
 	
 	@Override
 	public void draw() {
+		draw_background();
 
-		if(parent.getAgent().radarReadsRectangle(obstacles))
-			bg_color=new PVector(255, 0, 0);
-
-		parent.background(
-				bg_color.x,
-				bg_color.y,
-				bg_color.z);
-
-		if (bg_color.mag()>0)
-			bg_color.sub(17, 0, 0);
-		else
-			bg_color.set(0, 0, 0);
 
 
 	      if(interpreter.isEnterTouch()){

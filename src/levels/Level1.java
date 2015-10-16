@@ -50,6 +50,7 @@ public class Level1 extends Level{
 
 	@Override
 	public void draw(){
+		draw_background();
 		//second game state : the first level 
 		//agent must speed up to quit the left area of the game scenery 
 		//and pass the door

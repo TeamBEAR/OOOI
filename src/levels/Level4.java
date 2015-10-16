@@ -129,23 +129,13 @@ public class Level4 extends Level{
 	public void draw(){
 		
 
-		if(parent.getAgent().radarReadsRectangle(obstacles))
-			bg_color=new PVector(255, 0, 0);
-
-		parent.background(
-				bg_color.x,
-				bg_color.y,
-				bg_color.z);
-
-		if (bg_color.mag()>0)
-			bg_color.sub(17, 0, 0);
-		else
-			bg_color.set(0, 0, 0);
+		draw_background();
 		
 		if(interpreter.isEnterTouch()){
 		    interpreter.executeInput(parent.getAgent());
 		    interpreter.clear();
-		}
+		}	
+	    
 
 		if(state==0){
 			if(parent.getAgent().get_x()>100){
@@ -156,7 +146,6 @@ public class Level4 extends Level{
 		//second game state : the first level 
 		//agent must speed up to quit the left area of the game scenery 
 		//and pass the door
-		parent.background(0); 
 		drawScenery();
 		print_request();
 		parent.getAgent().draw();

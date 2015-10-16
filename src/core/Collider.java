@@ -26,6 +26,9 @@ public class Collider {
 		circleParameters = circle.getParams();
 		center = new PVector(circleParameters[0], circleParameters[1]);
 		radius = new PVector(circleParameters[2], circleParameters[3]);
+		System.out.println("nb rects : " + rectangles.getChildCount());
+		
+		
 
 		for(int i=0; i < rectangles.getChildCount(); i++){
 			   obstacleParameters = rectangles.getChild(i).getParams();

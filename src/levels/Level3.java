@@ -30,6 +30,8 @@ public class Level3 extends Level{
 	
 	@Override
 	public void draw() {
+
+		draw_background();
 	    
 	    if(interpreter.isEnterTouch()){
 	        interpreter.executeInput(parent.getAgent());
